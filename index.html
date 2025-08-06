@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerador de Lero Lero com Modos</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f0e6ff 0%, #ffffff 100%);
+      text-align: center;
+      padding: 50px;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      max-width: 700px;
+      margin: auto;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .modo-container {
+      margin-bottom: 20px;
+    }
+    .modo-container span {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    .modo-container button {
+      margin: 0 5px;
+      padding: 6px 14px;
+      border: none;
+      border-radius: 20px;
+      background: #f1f1f1;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .modo-container button.ativo {
+      background: #6a0dad;
+      color: white;
+    }
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #6a0dad;
+      color: white;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #580b9e;
+    }
+    #resultado {
+      margin-top: 20px;
+      font-size: 18px;
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 10px;
+      min-height: 60px;
+    }
+    #copyBtn {
+      margin-top: 10px;
+      background: #2196F3;
+    }
+    #copyBtn:hover {
+      background: #1976D2;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Gerador de Lero Lero</h1>
+
+    <div class="modo-container">
+      <span>Modo:</span>
+      <button onclick="setModo('institucional')" class="ativo">Institucional</button>
+      <button onclick="setModo('motivacional')">Motivacional</button>
+      <button onclick="setModo('corporativo')">Corporativo</button>
+    </div>
+
+    <button onclick="geraLero()">Gerar Frase</button>
+    <div id="resultado">Clique no botão para gerar uma frase!</div>
+    <button id="copyBtn" onclick="copiarTexto()">Copiar Frase</button>
+  </div>
+
+  <script>
+    let modoAtual = 'institucional';
+
+    const listas = {
+      institucional: {
+        comeco: [
+          "Em face da conjuntura paradigmática e da volatilidade estrutural em constante metamorfose,",
+          "Considerando a multiplicidade de vetores sistêmicos e a complexidade intrínseca dos fenômenos interdependentes,",
+          "À luz das diretrizes epistemológicas que norteiam os processos decisórios contemporâneos,",
+          "No âmago das dinâmicas interinstitucionais de natureza transversal e polissêmica,",
+          "Sob a égide das interações holísticas que permeiam os arcabouços normativos e procedimentais,"
+        ],
+        meio: [
+          "a reconfiguração paradigmática dos dispositivos organizacionais multifacetados",
+          "a potencialização sinérgica das interfaces funcionais intersetoriais",
+          "a consolidação heurística de modelos procedimentais escalonados",
+          "a implementação holística de mecanismos operacionais inovadores",
+          "a redefinição estrutural dos referenciais institucionais estratificados"
+        ],
+        verbo: [
+          "configura elemento sine qua non para",
+          "assume caráter teleológico imprescindível no que tange a",
+          "representa um catalisador axiológico imprescindível rumo a",
+          "se estabelece como vetor estruturante e inalienável para",
+          "constituindo, destarte, a premissa basilar para"
+        ],
+        final: [
+          "a consecução efetiva e perene dos objetivos estratégicos previamente delineados em instâncias superiores.",
+          "a consolidação hegemônica dos resultados prospectivos no âmbito institucional ampliado.",
+          "o fortalecimento continuado das práticas intersetoriais de natureza disruptiva e escalável.",
+          "a materialização tangível das metas axiológicas que permeiam o escopo decisório organizacional.",
+          "a legitimação estrutural dos avanços sistêmicos obtidos no espectro macroestratégico."
+        ]
+      },
+      motivacional: {
+        comeco: [
+          "Face às contingências existenciais e à inevitável dialética entre fracasso e superação,",
+          "Considerando a intrínseca capacidade de ressignificação que emana da psique resiliente,",
+          "À medida que o indivíduo transcende suas próprias limitações ontológicas,",
+          "No entrelaçamento das vivências que moldam a consciência em constante evolução,",
+          "Diante da inexorabilidade dos ciclos de aprendizado e transformação,"
+        ],
+        meio: [
+          "a irrupção fenomenológica do potencial latente",
+          "a sublimação progressiva das experiências adversas",
+          "a ressignificação axiológica dos obstáculos inerentes à trajetória",
+          "a autoafirmação enquanto agente teleológico da própria narrativa",
+          "a incorporação de valores transcendentais na construção da jornada"
+        ],
+        verbo: [
+          "constituem elementos inarredáveis para",
+          "servem de alicerce indispensável a",
+          "operam como catalisadores insofismáveis rumo a",
+          "se transfiguram em instrumentos inexoráveis para",
+          "representam marcos fundacionais com vistas a"
+        ],
+        final: [
+          "a materialização plena da autorrealização enquanto projeto existencial contínuo.",
+          "o desvelamento progressivo das potencialidades inatas e transformadoras.",
+          "a superação dialética das barreiras psíquicas e sociais autoimpostas.",
+          "a consecução de um estado de completude ontológica e autorreferenciada.",
+          "o florescimento de uma consciência expandida e eticamente engajada."
+        ]
+      },
+      corporativo: {
+        comeco: [
+          "À medida que os ecossistemas empresariais se reconfiguram em cenários altamente voláteis e disruptivos,",
+          "Considerando a emergência de paradigmas corporativos polimórficos e interconectados,",
+          "Sob o influxo de transformações digitais exponenciais e de arquiteturas organizacionais líquidas,",
+          "Diante da crescente complexidade das cadeias produtivas globais e das demandas sinérgicas,",
+          "No bojo da competitividade transnacional e da inovação orientada por dados,"
+        ],
+        meio: [
+          "a orquestração estratégica de recursos intangíveis multifuncionais",
+          "a consolidação de sinergias interdepartamentais escaláveis",
+          "a reengenharia disruptiva de processos corporativos endógenos",
+          "a otimização heurística de ativos imateriais de alto valor agregado",
+          "a integração sistemática de soluções exponenciais e modulares"
+        ],
+        verbo: [
+          "representa um imperativo categórico para",
+          "estabelece um vetor imprescindível à",
+          "configura um elemento nevrálgico rumo a",
+          "se manifesta como condição sine qua non para",
+          "constitui fator determinante no alcance de"
+        ],
+        final: [
+          "a perpetuação sustentável das vantagens competitivas em mercados fluidos.",
+          "a legitimação corporativa em ecossistemas de alta complexidade adaptativa.",
+          "a consolidação de posicionamentos estratégicos diferenciados e perenes.",
+          "a maximização do valor percebido em ambientes empresariais policêntricos.",
+          "o fortalecimento de estruturas organizacionais resilientes e exponenciais."
+        ]
+      }
+    };
+
+    function setModo(modo) {
+      modoAtual = modo;
+      document.querySelectorAll('.modo-container button').forEach(btn => btn.classList.remove('ativo'));
+      event.target.classList.add('ativo');
+    }
+
+    function geraLero() {
+      const { comeco, meio, verbo, final } = listas[modoAtual];
+      const frase = `${comeco[Math.floor(Math.random()*comeco.length)]} ` +
+                    `${meio[Math.floor(Math.random()*meio.length)]} ` +
+                    `${verbo[Math.floor(Math.random()*verbo.length)]} ` +
+                    `${final[Math.floor(Math.random()*final.length)]}`;
+      document.getElementById("resultado").innerText = frase;
+    }
+
+    function copiarTexto() {
+      const texto = document.getElementById("resultado").innerText;
+      navigator.clipboard.writeText(texto).then(() => {
+        alert("Frase copiada!");
+      });
+    }
+  </script>
+</body>
+</html>
